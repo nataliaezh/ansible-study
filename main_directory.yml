@@ -1,0 +1,8 @@
+main_directory.yml
+---
+- name: Principal directory
+  hosts: localhost
+  tasks:
+    - name^ Create /main/pricipal
+	  file:
+	    path: /main/pricipal
