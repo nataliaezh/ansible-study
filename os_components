@@ -1,0 +1,67 @@
+os_components_htop.yml
+---
+- name: install_htop.yml
+  hosts: myhost
+  gather_facts: yes
+  become: yes
+
+  roles:
+    - install_htop 
+	
+os_components_unzip.yml
+---
+- name: Unzip files
+  unarchive:
+    src: "https://internalrepo.example.com/MYSOFTWARE/Packages/mysoftware-latest.tar.gz"
+    dest: "/opt"
+    remote_src: yes	
+os_components_telnet.yml
+---
+
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+  - name: telnet,login and execute command
+    ignore_errors: true
+    expect:
+      command: telnet "{{ inventory_hostname }}"
+      responses:
+        (?i)username: "admin"
+        (?i)password: "12345"
+        (?i)#: "{{COMMAND}}\r\nlogout\r\nexit\r\nquit"
+      echo: yes
+    register: telnet_output
+  - name: Debug output
+    debug: var=telnet_output.stdout_lines
+	
+os_components_java.yml
+---
+- name: Install add-apt-repostory
+  become: yes
+  apt: name=software-properties-common state=latest
+
+- name: Add Oracle Java Repository
+  become: yes
+  apt_repository: repo='ppa:webupd8team/java'
+
+- name: Accept Java 8 License
+  become: yes
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+- name: Install Oracle Java 8
+  become: yes
+  apt: name={{item}} state=latest
+  with_items:
+    - oracle-java8-installer
+    - ca-certificates
+    - oracle-java8-set-default	
+	
+os_components_python.yml
+---
+- name: Install common software requirements
+  become: true
+  yum:
+    state: present
+    name: 
+      - python-pip 
