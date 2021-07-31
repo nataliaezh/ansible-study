@@ -1,0 +1,11 @@
+#2) Написать роль по созданию и настройку пользователя ОС, реквизиты пользователя заволтить с помощью vault-file
+ansible-vault create server.yml
+---
+nginx:
+  login:"root"
+  password:"toor"
+
+  ansible-vault view server.yml
+  ansible-vault edit server.yml
+  ansible-vault encrypt server.yml
+  ansible-vault encrypt_strins "password"

@@ -1,0 +1,6 @@
+#1) С помощью ad-hoc ansible запустить модуль template, создав предварительно простой jinja-шаблон
+mkdir temp
+vim template.j2
+{{example}}
+
+ansible -m template -a "src./template/template.j2 dest=./home/newtemplate.j2" -e example=777 localhost
