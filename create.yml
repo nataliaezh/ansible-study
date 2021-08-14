@@ -1,0 +1,15 @@
+#3.1) CREATE TABLE dictionaries
+- hosts: localhost
+  sudo: yes
+  sudo_user: mysql
+  tasks:
+    - name: CREATE TABLE dictionaries 
+      command: mysql -c "CREATE TABLE dictionaries (
+    id PRIMARY KEY,
+    key text not null,
+    value text not null,
+    )" exm_db
+      register: create_table_dictionaries
+
+    - name : Display dictionaries table contents
+      debug: msg="{{ create_table_dictionaries.stdout }}"
